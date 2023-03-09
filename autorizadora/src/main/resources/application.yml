@@ -11,3 +11,20 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: anac.cola@gmail.com
+    password:
+    protocol: smtp
+    properties:
+      mail:
+        to:
+      smtp:
+        auth: true
+        connectiontimeout: 5000
+        timeout: 5000
+        writetimeout: 5000
+        starttls:
+          enable: true

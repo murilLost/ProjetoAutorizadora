@@ -1,4 +1,4 @@
-package br.com.fiap.autorizadora.enity;
+package br.com.fiap.autorizadora.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +18,10 @@ public class CartaoEntity {
 
     @Column
     @NotNull
+    private Integer id;
+
+    @Column
+    @NotNull
     private Integer cvv;
 
     @Column
@@ -34,6 +38,9 @@ public class CartaoEntity {
     public void setNumber(Long number) {
         this.numero = number;
     }
+
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public Integer getCvv() {
         return cvv;
