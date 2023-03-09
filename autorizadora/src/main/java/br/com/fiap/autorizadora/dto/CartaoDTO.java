@@ -1,4 +1,5 @@
 package br.com.fiap.autorizadora.dto;
 
-public class CartaoPagamentoDTO {
+public class CartaoDTO {
+
 }
