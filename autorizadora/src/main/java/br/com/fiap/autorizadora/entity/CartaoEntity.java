@@ -2,12 +2,14 @@ package br.com.fiap.autorizadora.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "TB_CARTAO")
+@EntityListeners(AuditingEntityListener.class)
 public class CartaoEntity {
 
     public CartaoEntity(){

@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   datasource:
     url: jdbc:h2:~/MBA/projects/spring/h2/acquirerdb;DB_CLOSE_ON_EXIT=FALSE
@@ -23,8 +26,7 @@ spring:
         to:
       smtp:
         auth: true
-        connectiontimeout: 5000
+        connection-timeout: 5000
         timeout: 5000
-        writetimeout: 5000
         starttls:
           enable: true
