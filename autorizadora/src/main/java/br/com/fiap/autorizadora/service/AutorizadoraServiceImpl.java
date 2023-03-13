@@ -1,7 +1,7 @@
 package br.com.fiap.autorizadora.service;
 
 import br.com.fiap.autorizadora.dto.TransacaoDTO;
-import br.com.fiap.autorizadora.enity.TransacaoEntity;
+import br.com.fiap.autorizadora.entity.TransacaoEntity;
 import br.com.fiap.autorizadora.repository.CartaoRepository;
 import br.com.fiap.autorizadora.repository.TransacaoRepository;
 import org.springframework.stereotype.Service;

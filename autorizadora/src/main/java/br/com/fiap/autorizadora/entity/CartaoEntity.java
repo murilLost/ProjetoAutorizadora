@@ -1,13 +1,15 @@
-package br.com.fiap.autorizadora.enity;
+package br.com.fiap.autorizadora.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "TB_CARTAO")
+@EntityListeners(AuditingEntityListener.class)
 public class CartaoEntity {
 
     public CartaoEntity(){
@@ -15,6 +17,10 @@ public class CartaoEntity {
 
     @Id
     private Long numero;
+
+    @Column
+    @NotNull
+    private Integer id;
 
     @Column
     @NotNull
@@ -34,6 +40,9 @@ public class CartaoEntity {
     public void setNumber(Long number) {
         this.numero = number;
     }
+
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public Integer getCvv() {
         return cvv;

@@ -1,4 +1,4 @@
-package br.com.fiap.autorizadora.enity;
+package br.com.fiap.autorizadora.entity;
 
 import jakarta.persistence.*;
 
