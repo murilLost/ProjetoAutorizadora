@@ -32,22 +32,33 @@ public class AutorizadoraServiceImpl implements AutorizadoraService {
     @Override
     public String pagamento(TransacaoDTO transacaoDTO) {
 
-        CartaoEntity cartaoEntity = cartaoRepository.findById(transacaoDTO.numeroCartao()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "cartao.not.found"));
-        TransacaoEntity transacaoParaSalvar = new TransacaoEntity(LocalDateTime.now(), transacaoDTO.valor(), cartaoEntity);
-
-        try {
-            TransacaoEntity transacaoSalva = transacaoRepository.save(transacaoParaSalvar);
-            System.out.println(transacaoSalva.getValor());
-            return "Pagamento efeutada com sucesso";
+        CartaoEntity cartaoEntity = cartaoRepository.findById(transacaoDTO.numeroCartao()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Operação Inválida"));
+        if(cartaoEntity.getLimite() < transacaoDTO.valor()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Limite Excedido - Transação não autorizada");
         }
-        catch (Exception e) {
-            return "Erro ao efetuar pagamento" + e.getMessage();
+        if ((cartaoEntity.getCvv().equals(transacaoDTO.cvvCartao())) &&
+                (cartaoEntity.getDataExpiracao().equals(transacaoDTO.dataExpiracaoCartao()))){
+                TransacaoEntity transacaoParaSalvar = new TransacaoEntity(LocalDateTime.now(), transacaoDTO.valor(), cartaoEntity);
+
+            try {
+                TransacaoEntity transacaoSalva = transacaoRepository.save(transacaoParaSalvar);
+                cartaoEntity.setLimite(cartaoEntity.getLimite() - transacaoDTO.valor());
+                cartaoRepository.save(cartaoEntity);
+
+                return "Pagamento efeutado com sucesso";
+            }
+            catch (Exception e) {
+                return "Erro ao efetuar pagamento" + e.getMessage();
+            }
+
+        } else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados do cartão inválidos");
         }
     }
 
     @Override
     public List<TransacaoSimpleDTO> extrato(TransacoesConsultaDTO transacoesConsultaDTO) {
-        CartaoEntity cartaoEntity = cartaoRepository.findById(transacoesConsultaDTO.numeroCartao()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "cartao.not.found"));
+        CartaoEntity cartaoEntity = cartaoRepository.findById(transacoesConsultaDTO.numeroCartao()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Operação Inválida"));
 
         System.out.println(cartaoEntity);
         return cartaoEntity.getTransacoes()

@@ -10,4 +10,6 @@ public interface TransacaoRepository extends JpaRepository<TransacaoEntity, Inte
 
     List<TransacaoEntity> findByCartao(CartaoEntity cartaoEntity);
 
+
+
 }
