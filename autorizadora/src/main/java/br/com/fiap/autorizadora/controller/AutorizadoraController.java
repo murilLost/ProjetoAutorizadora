@@ -4,6 +4,7 @@ import br.com.fiap.autorizadora.dto.TransacaoDTO;
 import br.com.fiap.autorizadora.dto.TransacaoSimpleDTO;
 import br.com.fiap.autorizadora.dto.TransacoesConsultaDTO;
 import br.com.fiap.autorizadora.service.AutorizadoraService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class AutorizadoraController {
     }
 
     @PostMapping
-    public ResponseEntity<String> pagamento(@RequestBody TransacaoDTO transacaoDTO){
+    public ResponseEntity<String> pagamento(@Valid @RequestBody TransacaoDTO transacaoDTO){
         return ResponseEntity.ok(autorizadoraSerice.pagamento(transacaoDTO));
     }
 

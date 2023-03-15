@@ -1,8 +1,10 @@
 package br.com.fiap.autorizadora.dto;
 
-public record CartaoCadastroDTO(
+import jakarta.validation.constraints.NotNull;
 
-        Long idAluno
+public record CartaoCadastroDTO(
+     @NotNull(message = "ID do aluno precisa ser preenchido.")
+     Long idAluno
 
 ) {
 }
