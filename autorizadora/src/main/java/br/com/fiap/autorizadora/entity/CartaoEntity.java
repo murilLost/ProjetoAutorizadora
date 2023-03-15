@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -15,12 +15,22 @@ public class CartaoEntity {
     public CartaoEntity(){
     }
 
-    @Id
-    private Long numero;
+    public CartaoEntity(String numero, Integer cvv, LocalDate dataExpiracao) {
+        this.numero = numero;
+        this.cvv = cvv;
+        this.dataExpiracao = dataExpiracao;
+    }
 
-    @Column
-    @NotNull
-    private Integer id;
+    public CartaoEntity(String numero, Long idCliente, Integer cvv, LocalDate dataExpiracao, Double limite) {
+        this.numero = numero;
+        this.idCliente = idCliente;
+        this.cvv = cvv;
+        this.dataExpiracao = dataExpiracao;
+        this.limite = limite;
+    }
+
+    @Id
+    private String numero;
 
     @Column
     @NotNull
@@ -28,21 +38,29 @@ public class CartaoEntity {
 
     @Column
     @NotNull
-    private Date dataExpiracao;
+    private LocalDate dataExpiracao;
+
+    @Column
+    @NotNull
+    private Long idCliente;
+
+    @Column
+    @NotNull
+    private Double limite;
 
     @OneToMany(mappedBy = "cartao")
     private List<TransacaoEntity> transacoes;
 
-    public Long getNumber() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumber(Long number) {
-        this.numero = number;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Long getId() { return idCliente; }
+    public void setId(Long id) { this.idCliente = id; }
 
     public Integer getCvv() {
         return cvv;
@@ -52,12 +70,31 @@ public class CartaoEntity {
         this.cvv = cvv;
     }
 
-    public Date getDataExpiracao() {
+    public LocalDate getDataExpiracao() {
         return dataExpiracao;
     }
 
-    public void setDataExpiracao(Date dataExpiracao) {
+    public Long getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public Double getLimite() {
+        return limite;
+    }
+
+    public void setLimite(Double limite) {
+        this.limite = limite;
+    }
+
+    public void setDataExpiracao(LocalDate dataExpiracao) {
         this.dataExpiracao = dataExpiracao;
     }
 
+    public List<TransacaoEntity> getTransacoes() {
+        return transacoes;
+    }
 }

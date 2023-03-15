@@ -2,7 +2,8 @@ package br.com.fiap.autorizadora.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "TB_TRANSACAO")
@@ -11,12 +12,18 @@ public class TransacaoEntity {
     public TransacaoEntity() {
     }
 
+    public TransacaoEntity(LocalDateTime dataTransacao, Double valor, CartaoEntity cartao) {
+        this.dataTransacao = dataTransacao;
+        this.valor = valor;
+        this.cartao = cartao;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    private Date dataTransacao;
+    private LocalDateTime dataTransacao;
 
     @Column
     private Double valor;
@@ -32,11 +39,11 @@ public class TransacaoEntity {
         this.id = id;
     }
 
-    public Date getDataTransacao() {
+    public LocalDateTime getDataTransacao() {
         return dataTransacao;
     }
 
-    public void setDataTransacao(Date dataTransacao) {
+    public void setDataTransacao(LocalDateTime dataTransacao) {
         this.dataTransacao = dataTransacao;
     }
 

@@ -1,5 +1,6 @@
 package br.com.fiap.autorizadora.controller;
 
+import br.com.fiap.autorizadora.dto.CartaoCadastroDTO;
 import br.com.fiap.autorizadora.dto.CartaoDTO;
 import br.com.fiap.autorizadora.service.CartaoService;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,8 @@ public class CartaoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CartaoDTO create(@RequestBody CartaoDTO cartaoDTO){
-        return cartaoService.create(cartaoDTO);
+    public CartaoDTO create(@RequestBody CartaoCadastroDTO cartaoCadastroDTO){
+        return cartaoService.create(cartaoCadastroDTO);
     }
 
     @PutMapping("{id}")
