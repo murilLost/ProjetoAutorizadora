@@ -24,9 +24,11 @@ public class AutorizadoraServiceImpl implements AutorizadoraService {
 
     private TransacaoRepository transacaoRepository;
 
-    public AutorizadoraServiceImpl(CartaoRepository cartaoRepository, TransacaoRepository transacaoRepository) {
+    private MailSenderService mailSenderService;
+    public AutorizadoraServiceImpl(CartaoRepository cartaoRepository, TransacaoRepository transacaoRepository,MailSenderService mailSenderService) {
         this.cartaoRepository = cartaoRepository;
         this.transacaoRepository = transacaoRepository;
+        this.mailSenderService = mailSenderService;
     }
 
     @Override
@@ -57,11 +59,13 @@ public class AutorizadoraServiceImpl implements AutorizadoraService {
     }
 
     @Override
-    public List<TransacaoSimpleDTO> extrato(TransacoesConsultaDTO transacoesConsultaDTO) {
-        CartaoEntity cartaoEntity = cartaoRepository.findById(transacoesConsultaDTO.numeroCartao()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Operação Inválida"));
+    public List<TransacaoSimpleDTO> extratoEmail(TransacoesConsultaDTO transacoesConsultaDTO) {
+        List<TransacaoEntity> transacoes = transacaoRepository.findByDataAndCartao(transacoesConsultaDTO.dataInicio(),
+                transacoesConsultaDTO.dataFim(), transacoesConsultaDTO.numeroCartao());
 
-        System.out.println(cartaoEntity);
-        return cartaoEntity.getTransacoes()
+        mailSenderService.sendMail(transacoes, transacoesConsultaDTO.email());
+
+        return transacoes
                 .stream()
                 .map(transacaoEntity -> new TransacaoSimpleDTO(
                         transacaoEntity.getValor(),

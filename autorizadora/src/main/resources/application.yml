@@ -16,17 +16,16 @@ spring:
     show-sql: true
 
   mail:
-    host: smtp.gmail.com
+    host: smtp.office365.com
     port: 587
-    username: anac.cola@gmail.com
-    password:
-    protocol: smtp
+    username: anacola2005@hotmail.com
+    password: Acal0*0@
     properties:
       mail:
-        to:
-      smtp:
-        auth: true
-        connection-timeout: 5000
-        timeout: 5000
-        starttls:
-          enable: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enable: false

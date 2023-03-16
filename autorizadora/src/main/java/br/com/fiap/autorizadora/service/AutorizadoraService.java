@@ -10,6 +10,6 @@ public interface AutorizadoraService {
 
     String pagamento(TransacaoDTO transacaoDTO);
 
-    List<TransacaoSimpleDTO> extrato(TransacoesConsultaDTO transacoesConsultaDTO);
+    List<TransacaoSimpleDTO> extratoEmail(TransacoesConsultaDTO transacoesConsultaDTO);
 
 }

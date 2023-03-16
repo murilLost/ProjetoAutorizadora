@@ -17,21 +17,21 @@ import java.util.List;
 @RequestMapping("autorizadora")
 public class AutorizadoraController {
 
-    private AutorizadoraService autorizadoraSerice;
+    private AutorizadoraService autorizadoraService;
 
-    public AutorizadoraController(AutorizadoraService autorizadoraSerice) {
-        this.autorizadoraSerice = autorizadoraSerice;
+    public AutorizadoraController(AutorizadoraService autorizadoraService) {
+        this.autorizadoraService = autorizadoraService;
     }
 
     @PostMapping
     public ResponseEntity<String> pagamento(@Valid @RequestBody TransacaoDTO transacaoDTO){
-        return ResponseEntity.ok(autorizadoraSerice.pagamento(transacaoDTO));
+        return ResponseEntity.ok(autorizadoraService.pagamento(transacaoDTO));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TransacaoSimpleDTO> extrato(@RequestBody TransacoesConsultaDTO transacoesConsultaDTO){
-        return autorizadoraSerice.extrato(transacoesConsultaDTO);
+    public List<TransacaoSimpleDTO> extratoEmail(@RequestBody TransacoesConsultaDTO transacoesConsultaDTO){
+        return autorizadoraService.extratoEmail(transacoesConsultaDTO);
     }
 
 }
