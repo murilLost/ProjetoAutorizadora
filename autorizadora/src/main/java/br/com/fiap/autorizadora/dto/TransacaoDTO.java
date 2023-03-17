@@ -12,12 +12,19 @@ public record TransacaoDTO (
     @Min(value = 01, message = "Valor mínimo de R$1,00")
     Double valor,
 
-    @Size(max = 16, min = 16, message = "O número de cartão inválido")
+    @Size(max = 16, min = 16, message = "O número de cartão é inválido")
     String numeroCartao,
+
     @Max(value = 999, message = "cvv inválido")
     Integer cvvCartao,
-    @NotNull(message = "Insira sua data de expiração")
-    LocalDate dataExpiracaoCartao
+
+    @NotNull(message = "Insira o mês da data de expiração")
+    @Size(min = 2, max = 2, message = "Mês da data de expiração inválida - 2 dígitos")
+    String mesDataExpiracaoCartao,
+
+    @NotNull(message = "Insira o ano da data de expiração")
+    @Size(min = 4, max = 4, message = "Ano da data de expiração inválida - 4 dígitos")
+    String anoDataExpiracaoCartao
 
 ){
 

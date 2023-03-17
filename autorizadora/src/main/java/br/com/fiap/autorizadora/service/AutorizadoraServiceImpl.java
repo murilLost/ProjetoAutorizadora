@@ -1,5 +1,6 @@
 package br.com.fiap.autorizadora.service;
 
+
 import br.com.fiap.autorizadora.dto.TransacaoDTO;
 import br.com.fiap.autorizadora.dto.TransacaoSimpleDTO;
 import br.com.fiap.autorizadora.dto.TransacoesConsultaDTO;
@@ -7,13 +8,14 @@ import br.com.fiap.autorizadora.entity.CartaoEntity;
 import br.com.fiap.autorizadora.entity.TransacaoEntity;
 import br.com.fiap.autorizadora.repository.CartaoRepository;
 import br.com.fiap.autorizadora.repository.TransacaoRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +27,7 @@ public class AutorizadoraServiceImpl implements AutorizadoraService {
     private TransacaoRepository transacaoRepository;
 
     private MailSenderService mailSenderService;
+
     public AutorizadoraServiceImpl(CartaoRepository cartaoRepository, TransacaoRepository transacaoRepository,MailSenderService mailSenderService) {
         this.cartaoRepository = cartaoRepository;
         this.transacaoRepository = transacaoRepository;
@@ -32,14 +35,15 @@ public class AutorizadoraServiceImpl implements AutorizadoraService {
     }
 
     @Override
-    public String pagamento(TransacaoDTO transacaoDTO) {
+    public ResponseEntity<?> pagamento(TransacaoDTO transacaoDTO) {
 
         CartaoEntity cartaoEntity = cartaoRepository.findById(transacaoDTO.numeroCartao()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Operação Inválida"));
         if(cartaoEntity.getLimite() < transacaoDTO.valor()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Limite Excedido - Transação não autorizada");
+            return ResponseEntity.badRequest().body("Limite Excedido - Transação não autorizada");
         }
         if ((cartaoEntity.getCvv().equals(transacaoDTO.cvvCartao())) &&
-                (cartaoEntity.getDataExpiracao().equals(transacaoDTO.dataExpiracaoCartao()))){
+                (cartaoEntity.getMesDataExpiracao().equals(transacaoDTO.mesDataExpiracaoCartao())) &&
+                (cartaoEntity.getAnoDataExpiracao().equals(transacaoDTO.anoDataExpiracaoCartao()))){
                 TransacaoEntity transacaoParaSalvar = new TransacaoEntity(LocalDateTime.now(), transacaoDTO.valor(), cartaoEntity);
 
             try {
@@ -47,30 +51,34 @@ public class AutorizadoraServiceImpl implements AutorizadoraService {
                 cartaoEntity.setLimite(cartaoEntity.getLimite() - transacaoDTO.valor());
                 cartaoRepository.save(cartaoEntity);
 
-                return "Pagamento efeutado com sucesso";
+                return ResponseEntity.ok(new TransacaoSimpleDTO(transacaoSalva.getValor(), transacaoSalva.getDataTransacao()));
             }
             catch (Exception e) {
-                return "Erro ao efetuar pagamento" + e.getMessage();
-            }
+                e.printStackTrace();
 
-        } else{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados do cartão inválidos");
+                return ResponseEntity.internalServerError().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().body("Dados do cartão inválidos");
         }
     }
 
     @Override
-    public List<TransacaoSimpleDTO> extratoEmail(TransacoesConsultaDTO transacoesConsultaDTO) {
+    public ResponseEntity<String> extratoEmail(TransacoesConsultaDTO transacoesConsultaDTO) {
         List<TransacaoEntity> transacoes = transacaoRepository.findByDataAndCartao(transacoesConsultaDTO.dataInicio(),
                 transacoesConsultaDTO.dataFim(), transacoesConsultaDTO.numeroCartao());
 
-        mailSenderService.sendMail(transacoes, transacoesConsultaDTO.email());
+        if(transacoes.size() > 0) {
+            boolean envioEmail = mailSenderService.sendMail(transacoes, transacoesConsultaDTO.email());
+            if (envioEmail) {
+                return ResponseEntity.ok("Email enviado com sucesso para o endereço: " + transacoesConsultaDTO.email());
+            } else {
+                return ResponseEntity.badRequest().body("Falha ao enviar o email");
+            }
+        } else {
+            return ResponseEntity.noContent().build();
+        }
 
-        return transacoes
-                .stream()
-                .map(transacaoEntity -> new TransacaoSimpleDTO(
-                        transacaoEntity.getValor(),
-                        transacaoEntity.getDataTransacao()))
-                .collect(Collectors.toList());
     }
 
 }

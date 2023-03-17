@@ -3,12 +3,16 @@ package br.com.fiap.autorizadora.service;
 import br.com.fiap.autorizadora.dto.CartaoCadastroDTO;
 import br.com.fiap.autorizadora.dto.CartaoDTO;
 import br.com.fiap.autorizadora.entity.CartaoEntity;
+import br.com.fiap.autorizadora.model.DataExpiracaoModel;
 import br.com.fiap.autorizadora.repository.CartaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 @Service
@@ -24,26 +28,27 @@ public class CartaoServiceImpl implements CartaoService{
     }
 
     @Override
-    public List<CartaoDTO> listAll(String numero) {
-        return null;
-    }
+    public ResponseEntity<CartaoDTO> create(CartaoCadastroDTO cartaoCadastroDTO, UriComponentsBuilder uriBuilder) {
+        DataExpiracaoModel dataExpiracao = criarDataExpiracao();
 
-    @Override
-    public CartaoDTO get(Integer id) {
-        return null;
-    }
-
-    @Override
-    public CartaoDTO create(CartaoCadastroDTO cartaoCadastroDTO) {
-        LocalDate dataExpiracao = criarDataExpiracao();
         String numeroCartao = criarNumeroCartao();
+
         Integer cvv = criarCVV();
-        double limite = 5000;
-        CartaoEntity cartaoCriado = new CartaoEntity(numeroCartao, cartaoCadastroDTO.idAluno(), cvv, dataExpiracao, limite);
+
+        double limite = 5000.00;
+
+        CartaoEntity cartaoCriado = new CartaoEntity(
+                numeroCartao,
+                cartaoCadastroDTO.idAluno(),
+                cvv,
+                dataExpiracao.getMesDataExpiracao(),
+                dataExpiracao.getAnoDataExpiracao(),
+                limite
+        );
         CartaoEntity cartaoSalvo = cartaoRepository.save(cartaoCriado);
 
-        System.out.println(cartaoSalvo.toString());
-        return objectMapper.convertValue(cartaoSalvo, CartaoDTO.class);
+        URI uri = uriBuilder.path("/cartao/{numero}").buildAndExpand(cartaoCriado.getNumero()).toUri();
+        return ResponseEntity.created(uri).body(objectMapper.convertValue(cartaoSalvo, CartaoDTO.class));
     }
 
     private Integer criarCVV() {
@@ -55,20 +60,16 @@ public class CartaoServiceImpl implements CartaoService{
         int sequencia1 = new Random().nextInt(7999);
         int sequencia2 = new Random().nextInt(7999);
         int sequencia3 = new Random().nextInt(7999);
-        return String.valueOf(""+bandeira+sequencia1+sequencia2+sequencia3);
+        return ""+bandeira+sequencia1+sequencia2+sequencia3;
     }
 
-    private LocalDate criarDataExpiracao() {
-        return LocalDate.now().plusYears(5);
+    private DataExpiracaoModel criarDataExpiracao() {
+        DateTimeFormatter mesFormato = DateTimeFormatter.ofPattern("MM");
+        DateTimeFormatter anoFormato = DateTimeFormatter.ofPattern("yyyy");
+
+        LocalDate dataCriada = LocalDate.now().plusYears(5);
+
+        return new DataExpiracaoModel(dataCriada.format(mesFormato), dataCriada.format(anoFormato));
     }
 
-    @Override
-    public CartaoDTO update(Integer id, CartaoDTO cartaoDTO) {
-        return null;
-    }
-
-    @Override
-    public void delete(Integer id) {
-
-    }
 }

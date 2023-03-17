@@ -13,6 +13,7 @@ public record TransacoesConsultaDTO(
         @NotNull(message = "Informar data final")
         LocalDateTime dataFim,
         @NotNull(message = "Informar o e-mail")
+        @Size(min = 4, message = "Email invalido")
         String email
 
 ) {

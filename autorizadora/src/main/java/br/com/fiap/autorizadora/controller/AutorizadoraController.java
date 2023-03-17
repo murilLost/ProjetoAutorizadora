@@ -24,13 +24,12 @@ public class AutorizadoraController {
     }
 
     @PostMapping
-    public ResponseEntity<String> pagamento(@Valid @RequestBody TransacaoDTO transacaoDTO){
-        return ResponseEntity.ok(autorizadoraService.pagamento(transacaoDTO));
+    public ResponseEntity<?> pagamento(@Valid @RequestBody TransacaoDTO transacaoDTO){
+        return autorizadoraService.pagamento(transacaoDTO);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<TransacaoSimpleDTO> extratoEmail(@RequestBody TransacoesConsultaDTO transacoesConsultaDTO){
+    public ResponseEntity<String> extratoEmail(@Valid @RequestBody TransacoesConsultaDTO transacoesConsultaDTO){
         return autorizadoraService.extratoEmail(transacoesConsultaDTO);
     }
 

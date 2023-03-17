@@ -12,7 +12,8 @@ public record CartaoDTO(
 
         String numero,
         Integer cvv,
-        LocalDate dataExpiracao
+        String mesDataExpiracao,
+        String anoDataExpiracao
 
 ){
 }

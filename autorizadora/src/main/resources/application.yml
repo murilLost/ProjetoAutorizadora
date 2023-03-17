@@ -12,14 +12,14 @@ spring:
       path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 
   mail:
     host: smtp.office365.com
     port: 587
-    username: anacola2005@hotmail.com
-    password: Acal0*0@
+    username: email@hotmail.com
+    password: senha
     properties:
       mail:
         smtp:

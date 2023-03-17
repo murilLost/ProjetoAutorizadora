@@ -15,17 +15,19 @@ public class CartaoEntity {
     public CartaoEntity(){
     }
 
-    public CartaoEntity(String numero, Integer cvv, LocalDate dataExpiracao) {
+    public CartaoEntity(String numero, Integer cvv, String mesDataExpiracao, String anoDataExpiracao) {
         this.numero = numero;
         this.cvv = cvv;
-        this.dataExpiracao = dataExpiracao;
+        this.mesDataExpiracao = mesDataExpiracao;
+        this.anoDataExpiracao = anoDataExpiracao;
     }
 
-    public CartaoEntity(String numero, Long idCliente, Integer cvv, LocalDate dataExpiracao, Double limite) {
+    public CartaoEntity(String numero, Long idCliente, Integer cvv, String mesDataExpiracao, String anoDataExpiracao, Double limite) {
         this.numero = numero;
         this.idCliente = idCliente;
         this.cvv = cvv;
-        this.dataExpiracao = dataExpiracao;
+        this.mesDataExpiracao = mesDataExpiracao;
+        this.anoDataExpiracao = anoDataExpiracao;
         this.limite = limite;
     }
 
@@ -38,7 +40,11 @@ public class CartaoEntity {
 
     @Column
     @NotNull
-    private LocalDate dataExpiracao;
+    private String mesDataExpiracao;
+
+    @Column
+    @NotNull
+    private String anoDataExpiracao;
 
     @Column
     @NotNull
@@ -59,9 +65,6 @@ public class CartaoEntity {
         this.numero = numero;
     }
 
-    public Long getId() { return idCliente; }
-    public void setId(Long id) { this.idCliente = id; }
-
     public Integer getCvv() {
         return cvv;
     }
@@ -70,8 +73,20 @@ public class CartaoEntity {
         this.cvv = cvv;
     }
 
-    public LocalDate getDataExpiracao() {
-        return dataExpiracao;
+    public String getMesDataExpiracao() {
+        return mesDataExpiracao;
+    }
+
+    public void setMesDataExpiracao(String mesDataExpiracao) {
+        this.mesDataExpiracao = mesDataExpiracao;
+    }
+
+    public String getAnoDataExpiracao() {
+        return anoDataExpiracao;
+    }
+
+    public void setAnoDataExpiracao(String anoDataExpiracao) {
+        this.anoDataExpiracao = anoDataExpiracao;
     }
 
     public Long getIdCliente() {
@@ -88,10 +103,6 @@ public class CartaoEntity {
 
     public void setLimite(Double limite) {
         this.limite = limite;
-    }
-
-    public void setDataExpiracao(LocalDate dataExpiracao) {
-        this.dataExpiracao = dataExpiracao;
     }
 
     public List<TransacaoEntity> getTransacoes() {

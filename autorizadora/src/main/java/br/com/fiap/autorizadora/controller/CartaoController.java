@@ -4,7 +4,9 @@ import br.com.fiap.autorizadora.dto.CartaoCadastroDTO;
 import br.com.fiap.autorizadora.dto.CartaoDTO;
 import br.com.fiap.autorizadora.service.CartaoService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 
 @RestController()
@@ -17,27 +19,9 @@ public class CartaoController {
         this.cartaoService = cartaoService;
     }
 
-
-    @GetMapping(value = "{id}")
-    public CartaoDTO findById(@PathVariable Integer id){
-        return cartaoService.get(id);
-    }
-
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CartaoDTO create(@RequestBody CartaoCadastroDTO cartaoCadastroDTO){
-        return cartaoService.create(cartaoCadastroDTO);
+    public ResponseEntity<CartaoDTO> create(@RequestBody CartaoCadastroDTO cartaoCadastroDTO, UriComponentsBuilder uriBuilder){
+        return cartaoService.create(cartaoCadastroDTO, uriBuilder);
     }
-
-    @PutMapping("{id}")
-    public CartaoDTO update(@PathVariable Integer id, @RequestBody CartaoDTO cartaoDTO){
-        return cartaoService.update(id, cartaoDTO);
-    }
-
-    @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Integer id){ cartaoService.delete(id);}
-
-
 
 }
