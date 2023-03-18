@@ -29,3 +29,5 @@ spring:
             required: true
           ssl:
             enable: false
+jwt:
+  secret: s3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14P
