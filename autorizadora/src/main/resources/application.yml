@@ -1,5 +1,9 @@
 server:
-  port: 8080
+  port: 8085
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
 
 spring:
   datasource:
