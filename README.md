@@ -52,14 +52,14 @@ git clone https://github.com/murilLost/ProjetoAutorizadora.git
 ### 3 - Testes das APIs e descrição:
 <ol>
   <li>(POST) http://localhost:8085/cartao           - Cria o cartão para o aluno, com limite de R$5000,00.</li>
-  ![image](https://user-images.githubusercontent.com/63795081/226216320-cfcd68eb-807f-449b-b4c3-53a045cdf9a5.png)
+  ![api-criacao-cartao](https://user-images.githubusercontent.com/63795081/226216320-cfcd68eb-807f-449b-b4c3-53a045cdf9a5.png)
 
   <li>(POST) http://localhost:8085/autorizadora     - Faz a autorização do pagamento e sensibiliza o limite do aluno.</li>
-  ![image](https://user-images.githubusercontent.com/63795081/226216323-5b34cdd8-01a1-4edb-b027-762601e8a6f8.png)
+  ![api-pagamento](https://user-images.githubusercontent.com/63795081/226216323-5b34cdd8-01a1-4edb-b027-762601e8a6f8.png)
 
   <li>(GET) http://localhost:8085/autorizadora      - Faz o envio do extrato por email</li>
-  ![image](https://user-images.githubusercontent.com/63795081/226216333-97542fa8-9db4-4328-aae5-b1ae1ad3960e.png)
-  ![image](https://user-images.githubusercontent.com/63795081/226216368-105f937f-c318-4e8a-b7af-b128dff53f31.png)
+  ![api-envio-email](https://user-images.githubusercontent.com/63795081/226216333-97542fa8-9db4-4328-aae5-b1ae1ad3960e.png)
+  ![resultado-email](https://user-images.githubusercontent.com/63795081/226216368-105f937f-c318-4e8a-b7af-b128dff53f31.png)
 
 </ol>
 
