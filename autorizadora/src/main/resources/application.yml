@@ -1,24 +1,23 @@
 server:
   port: 8085
-
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-
 spring:
   datasource:
-    url: jdbc:h2:~/MBA/projects/spring/h2/acquirerdb;DB_CLOSE_ON_EXIT=FALSE
-    username: fiap
-    password: fiap
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    url: jdbc:mysql://localhost:3306/autorizadora
+    username: root
+    password: Gringotts
   jpa:
     hibernate:
       ddl-auto: update
+    open-in-view: true
     show-sql: true
-
+  security:
+    user:
+      name: username
+      password: secret
+      roles: USER
   mail:
     host: smtp.office365.com
     port: 587
@@ -32,6 +31,7 @@ spring:
             enable: true
             required: true
           ssl:
-            enable: false
+            enable: false    
 jwt:
   secret: s3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14Ps3cr37F14P
+  expirationInSeconds: 1800

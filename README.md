@@ -1,6 +1,6 @@
-# FIAP - SPRING
+# FIAP - WEBSERVICES & RESTFUL TECHNOLOGIES
 ## 1SCJR - ProjetoAutorizadora
-Prof: FABIO TADASHI MIYASATO
+Prof: EDUARDO FERREIRA GALEGO
 
 -Desenvolvido por:
 <ul>
@@ -21,6 +21,20 @@ Protótipo de autorizadora de cartão de uma universidade.
 Producer
 git clone https://github.com/murilLost/ProjetoAutorizadora.git
 ```
+
+##  Tecnologias utilizadas
+
+  1- Java 17.
+
+  2- Spring Boot 2
+
+  3- Spring Security
+  
+  4- JPA
+  
+  5- JWT
+
+  6- Gradle
 
 ##  Pré-requisitos para execução do projeto
 
@@ -46,7 +60,7 @@ git clone https://github.com/murilLost/ProjetoAutorizadora.git
   <li>Pronto, o projeto está pronto para ser executado; execute-o.</li>
   <li>Baixar e instalar qualquer programa que faça chamadas Rest, uma opção é o Postman, link: https://www.postman.com/</li>
   <li>Fazer as chamadas Rest para as 3 apis do projeto, uma para criar cartão, uma para autorizar pagamento e a última para enviar um email com o extrato de transações delimitado por data-hora.</li>
-  <li>Para executa-las, será necessário passar o JWT, que é uma autenticação do tipo Bearer. A geração do JWT é feita no projeto hw-spring-acquirer.</li>
+  <li>Para executa-las, será necessário passar o JWT, que é uma autenticação do tipo Bearer. A geração do JWT é feita no projeto hw-acquirer.</li>
 </ol>
   
 ### 3 - Testes das APIs e descrição:
@@ -59,7 +73,3 @@ git clone https://github.com/murilLost/ProjetoAutorizadora.git
 3 - (GET) http://localhost:8085/autorizadora      - Faz o envio do extrato por email
 ![api-envio-email](https://user-images.githubusercontent.com/63795081/226216333-97542fa8-9db4-4328-aae5-b1ae1ad3960e.png)
 ![resultado-email](https://user-images.githubusercontent.com/63795081/226216368-105f937f-c318-4e8a-b7af-b128dff53f31.png)
-
-
-## NOTAS:
-###### Em função das limitações de utilização do banco de dados H2, os projetos devem ser executados individualmente.
